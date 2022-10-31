@@ -52,6 +52,23 @@ def create_one_planet():
 
     return jsonify({'msg': f"Successfully created Planet with id= {new_planet.id}"}, 201)
 
+@planets_bp.route('<planet_id>', methods=['PUT'])
+def update_one_planet(planet_id):
+    update_planet = get_planet_from_id(planet_id)
+
+    request_body = request.get_json()
+
+    try:
+        update_planet.name = request_body["name"]
+        update_planet.description = request_body["description"]
+        update_planet.num_moon = request_body["num_moon"]
+    except KeyError:
+        return jsonify({"msg": "Missing attributes"}), 400
+    
+    db.session.commit()
+    return jsonify({"msg": f"Successfully updated planet with id {update_planet.id}"}), 200
+        
+
 # Helper function
 def get_planet_from_id(planet_id):
     try:
