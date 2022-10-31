@@ -26,10 +26,8 @@ def get_all_planets():
     result = []
     all_planets= Planet.query.all()
     for planet in all_planets:
-        planet_dict = {"id":planet.id, "name":planet.name,
-                    "description":planet.description, 
-                    "num_moon":planet.num_moon}
-        result.append(planet_dict)
+
+        result.append(planet.to_dict())
 
     return jsonify(result), 200
 
