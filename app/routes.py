@@ -1,3 +1,4 @@
+
 from flask import Blueprint, jsonify, request, abort, make_response
 from app import db
 from app.models.planet import Planet
@@ -67,7 +68,15 @@ def update_one_planet(planet_id):
     
     db.session.commit()
     return jsonify({"msg": f"Successfully updated planet with id {update_planet.id}"}), 200
-        
+
+@planets_bp.route('/<planet_id>', methods=['DELETE'])
+def delete_one_planet(planet_id):
+    planet_to_delete = get_planet_from_id(planet_id)
+
+    db.session.delete(planet_to_delete)
+    db.session.commit()
+
+    return jsonify({"msg": f"Successfully deleted planet with id {planet_to_delete.id}"}), 200        
 
 # Helper function
 def get_planet_from_id(planet_id):
