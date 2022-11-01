@@ -24,10 +24,15 @@ from app.models.planet import Planet
 planets_bp = Blueprint("planets", __name__,url_prefix="/planets")
 @planets_bp.route('', methods=['GET'])
 def get_all_planets():
-    result = []
-    all_planets= Planet.query.all()
-    for planet in all_planets:
+    name_query_value = request.args.get("name")
+    if name_query_value is not None:
+        planets = Planet.query.filter_by(name=name_query_value)
+    else:
+        planets = Planet.query.all()
 
+    result = []
+    
+    for planet in planets:
         result.append(planet.to_dict())
 
     return jsonify(result), 200
