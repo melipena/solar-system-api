@@ -23,11 +23,11 @@ def app():
 def client(app):
     return app.test_client()
 
-#@pytest.fixture
-#def two_breakfasts(app):
-#    breakfast1 = Breakfast(name="omelette", rating=4, prep_time=10)
-#    breakfast2 = Breakfast(name= "french toast", rating=3, prep_time=15)
-#
-#    db.session.add(breakfast1)
-#    db.session.add(breakfast2)
-#    db.session.commit()
+@pytest.fixture
+def two_planets(app):
+    planet1 = Planet(name="Mars", description="Red Planet", num_moon=2)
+    planet2 = Planet(name="Earth", description="Our Planet", num_moon=1)
+
+    db.session.add(planet1)
+    db.session.add(planet2)
+    db.session.commit()
